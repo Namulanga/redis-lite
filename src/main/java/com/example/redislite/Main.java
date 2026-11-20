@@ -1,31 +1,24 @@
-
 package com.example.redislite;
 
-import com.example.redislite.store.KeyValueStore;
+import com.example.redislite.server.KVServer;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        KeyValueStore store = new KeyValueStore();
+        int port = 5555;
 
-        store.set("name", "Anna");
-        store.set("city", "Tallinn");
+        if (args.length > 0) {
+            try {
+                port = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid port number");
+                return;
+            }
+        }
 
-        System.out.println("Name: " +
-                store.get("name").orElse("Key not found"));
+        KVServer server = new KVServer(port);
 
-        System.out.println("City: " +
-                store.get("city").orElse("Key not found"));
-
-        System.out.println("Age: " +
-                store.get("age").orElse("Key not found"));
-
-        store.delete("city");
-
-        System.out.println("City exists: " +
-                store.containsKey("city"));
-
-        System.out.println("Store size: " + store.size());
+        server.start();
     }
 }

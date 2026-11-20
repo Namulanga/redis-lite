@@ -1,4 +1,8 @@
 package com.example.redislite.command;
 
-public class Command {
+import com.example.redislite.session.ClientSession;
+
+public interface Command {
+
+    String execute(ClientSession session, String[] args);
 }
